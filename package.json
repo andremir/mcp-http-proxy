@@ -1,0 +1,28 @@
+{
+  "name": "mcp-http-proxy",
+  "version": "1.1.0",
+  "description": "MCP HTTP Proxy - Converts STDIO to HTTP for remote MCP servers with error handling",
+  "main": "index.js",
+  "bin": {
+    "mcp-http-proxy": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "proxy",
+    "stdio",
+    "http"
+  ],
+  "author": "Andre Miranda",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andremir/mcp-http-proxy.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
