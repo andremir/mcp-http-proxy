@@ -96,7 +96,7 @@ Remote MCP servers deployed via frameworks may not implement these stubs, return
 
 ### Deployment Instructions
 
-#### Option 1: Using npx (Recommended)
+#### Option 1: Using npx (If npm/npx works)
 
 Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
@@ -121,9 +121,9 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 The `-y` flag auto-confirms installation. npx will download and cache the proxy automatically.
 
-#### Option 2: Local Installation
+**Note**: If you get `Cannot find module 'node:path'` errors, your npm/npx is corrupted. Use Option 2 instead.
 
-If npm/npx is not available or corrupted:
+#### Option 2: Local Installation (Recommended if npx fails)
 
 ```bash
 git clone https://github.com/andremir/mcp-http-proxy /tmp/mcp-http-proxy
