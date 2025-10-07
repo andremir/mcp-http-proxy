@@ -96,16 +96,29 @@ Remote MCP servers deployed via frameworks may not implement these stubs, return
 
 ### Deployment Instructions
 
-#### Option 1: Using npx (If npm/npx works)
+#### Option 1: Using npx with wrapper (Recommended)
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+If you have multiple Node versions via nvm, Claude Desktop may use the wrong Node version causing `Cannot find module 'node:path'` errors. Use the wrapper script:
 
+1. Clone the repository:
+```bash
+git clone https://github.com/andremir/mcp-http-proxy /tmp/mcp-http-proxy
+chmod +x /tmp/mcp-http-proxy/npx-wrapper.sh
+```
+
+2. Edit the wrapper to use your working Node version:
+```bash
+# Edit /tmp/mcp-http-proxy/npx-wrapper.sh
+# Change NODE_VERSION="v22.20.0" to your version
+```
+
+3. Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
     "your-server-name": {
       "type": "stdio",
-      "command": "npx",
+      "command": "/tmp/mcp-http-proxy/npx-wrapper.sh",
       "args": [
         "-y",
         "github:andremir/mcp-http-proxy",
@@ -119,11 +132,29 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-The `-y` flag auto-confirms installation. npx will download and cache the proxy automatically.
+The wrapper forces npx to use the correct Node version, bypassing PATH issues.
 
-**Note**: If you get `Cannot find module 'node:path'` errors, your npm/npx is corrupted. Use Option 2 instead.
+#### Option 2: Direct npx (if you don't use nvm)
 
-#### Option 2: Local Installation (Recommended if npx fails)
+If you have a single Node installation, use npx directly:
+
+```json
+{
+  "mcpServers": {
+    "your-server-name": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "github:andremir/mcp-http-proxy",
+        "https://your-mcp-server.com/mcp"
+      ]
+    }
+  }
+}
+```
+
+#### Option 3: Local file (fallback)
 
 ```bash
 git clone https://github.com/andremir/mcp-http-proxy /tmp/mcp-http-proxy
