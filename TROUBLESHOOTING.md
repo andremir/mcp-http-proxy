@@ -96,45 +96,43 @@ Remote MCP servers deployed via frameworks may not implement these stubs, return
 
 ### Deployment Instructions
 
-#### Option 1: Using npx with wrapper (Recommended)
+#### Option 1: Using npx directly from GitHub (Recommended)
 
-If you have multiple Node versions via nvm, Claude Desktop may use the wrong Node version causing `Cannot find module 'node:path'` errors. Use the wrapper script:
+**For systems with multiple Node versions (nvm):**
 
-1. Clone the repository:
+Claude Desktop may use the wrong Node version from PATH. Bypass this by calling npx directly:
+
+1. Find your working Node version:
 ```bash
-git clone https://github.com/andremir/mcp-http-proxy /tmp/mcp-http-proxy
-chmod +x /tmp/mcp-http-proxy/npx-wrapper.sh
+node --version  # e.g., v22.20.0
 ```
 
-2. Edit the wrapper to use your working Node version:
-```bash
-# Edit /tmp/mcp-http-proxy/npx-wrapper.sh
-# Change NODE_VERSION="v22.20.0" to your version
-```
-
-3. Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+2. Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
     "your-server-name": {
       "type": "stdio",
-      "command": "/tmp/mcp-http-proxy/npx-wrapper.sh",
+      "command": "/path/to/node/v22.20.0/bin/node",
       "args": [
+        "/path/to/node/v22.20.0/lib/node_modules/npm/bin/npx-cli.js",
         "-y",
         "github:andremir/mcp-http-proxy",
         "https://your-mcp-server.com/mcp"
-      ],
-      "autoApprove": [],
-      "disabled": false,
-      "timeout": 60
+      ]
     }
   }
 }
 ```
 
-The wrapper forces npx to use the correct Node version, bypassing PATH issues.
+Replace `/path/to/node/v22.20.0` with your actual path:
+- nvm: `~/.nvm/versions/node/v22.20.0`
+- macOS Homebrew: `/usr/local/opt/node@22/`
+- Linux: `/usr/local/bin/node`
 
-#### Option 2: Direct npx (if you don't use nvm)
+This downloads the proxy from GitHub automatically - no local files needed.
+
+**For systems with single Node installation:**
 
 If you have a single Node installation, use npx directly:
 
